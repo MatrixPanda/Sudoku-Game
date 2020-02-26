@@ -1,5 +1,46 @@
 window.onload = function() {
+//    let drawRow = document.getElementById('board');
+
+//    drawRow.onkeypress = function(event) {
+      
+//       if(event.keyCode == 13) {
+//          alert("Enter Pressed!");
+
+//          // let content = document.createTextNode('1');
+//          // let newTd = document.createElement('td');
+//          // newTd.appendChild(content);
+//       }
+//   };
+
+   // dynamically create new DOM nodes
+   var y;
+   var x;
+   for (y = 0; y < 9; y++) {
+      for (x=0; x < 9; x++) {
+         let num = boardData[this.boardPosition(x, y)];
+         if (num == -1) {
+            num = "";
+         }
+         // let content = document.createTextNode(num);
+
+         let input = document.createElement('input');
+         input.setAttribute('type', 'text');
+         input.setAttribute('value', num);
+         input.setAttribute('id', 'cell-' + this.boardPosition(x, y));
+         // input.appendChild(content);
+
+        // let content = document.createTextNode(num);
+         let newListItem = document.createElement('td');
+         newListItem.appendChild(input);
+      
+         // insert the new element into the DOM
+         let coolPlaces = document.getElementById('row-' + y);
+         coolPlaces.appendChild(newListItem);
+      } 
+   }
    
+   
+
 }
 
 
@@ -15,7 +56,7 @@ var boardData = [
    -1, -1,  6, -1, -1, -1, -1, -1, -1
 ];
 
-// A convenience function to convert between x and y coordinates in the 2D grid the 1D array
+// A convenience function to convert between x and y coordinates in the 2D grid and the 1D array
 function boardPosition(x, y) {
    return y * 9 + x;
 }
