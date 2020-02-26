@@ -23,19 +23,23 @@ window.onload = function() {
          }
          // let content = document.createTextNode(num);
 
+         // note: work from the inside out to dynamically generate things. So input is inside the <td>...
+         // ...and <td> is inside the <tr> (the row id), so start with generating the input the pass value up.
          let input = document.createElement('input');
          input.setAttribute('type', 'text');
          input.setAttribute('value', num);
          input.setAttribute('id', 'cell-' + this.boardPosition(x, y));
+         if(boardData[this.boardPosition(x, y)] != -1) {
+            input.setAttribute('disabled', "");
+         }
          // input.appendChild(content);
 
-        // let content = document.createTextNode(num);
-         let newListItem = document.createElement('td');
-         newListItem.appendChild(input);
+         let newTd = document.createElement('td');
+         newTd.appendChild(input);
       
          // insert the new element into the DOM
-         let coolPlaces = document.getElementById('row-' + y);
-         coolPlaces.appendChild(newListItem);
+         let insertToDom = document.getElementById('row-' + y);
+         insertToDom.appendChild(newTd);
       } 
    }
    
