@@ -6,7 +6,7 @@ header {
     font-size: small;
     background-color: #324376;
     color: #b0b0d0;
-    width: 40%;
+    width: 650px;
     /* note: margin-left and margin-right set to auto centered it properly, margin all auto also works */
     margin-left: auto;
     margin-right: auto;
@@ -16,11 +16,8 @@ header {
 #board {
     display: flex;
     justify-content: center;
-    /* align-items: center; */
     font-family: 'Garamond', sans-serif;
     font-size: small;
-    /* background-color: #324376; */
-    /* color: #b0b0d0; */
     width: 40%;
     /* note: another approach using just one line of code, margin: top left bottom right */
     margin: 2em auto auto auto; 
@@ -105,3 +102,37 @@ input:disabled {
 #cell-62, #cell-71, #cell-80 { border-right:  2px solid #000000; }
 #cell-78, #cell-79, #cell-80 { border-bottom: 2px solid #000000; }
 #cell-60, #cell-69, #cell-78 { border-left:   2px solid #000000; }
+
+#palette {
+    display: flex;
+    justify-content: space-around;
+    border: 1px solid #000000;
+    font-family: 'Garamond', sans-serif;
+    /* note: to stop this palette's size from adjusting when changing screen width, use px, em, or rem */
+    width: 530px;
+    margin: 2em auto auto auto; 
+    padding: 0;
+    text-align: center;
+}
+
+/* note: this means all <li> tags that are direct children of the #palette id */
+#palette > li {
+    list-style-type: none;
+    color: #000000;
+    padding: 0;
+    width: inherit;
+    font-size: 34px;
+}
+
+#palette > li:hover {
+    background-color: #f5dd90;
+    cursor: pointer;
+}
+
+#undo {
+    background: url("../images/undo.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 55%; 
+    /* overflow: hidden; */
+}
