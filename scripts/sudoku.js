@@ -17,7 +17,7 @@ window.onload = function() {
          input.setAttribute('value', num);
          // input.setAttribute('id', 'cell-' + this.boardPosition(x, y));
          if(boardData[this.boardPosition(x, y)] != -1) {
-           // input.setAttribute('disabled', "");
+           input.setAttribute('disabled', "");
          }
          // input.appendChild(content);
 
@@ -98,37 +98,37 @@ window.onload = function() {
       tData[cellHistory.pop()].firstChild.setAttribute('value', "");
       valueHistory.pop();
       // tData[cellHistory[cellHistory.length-1]].firstChild.value = valueHistory[valueHistory.length-1];
+
+      // working version
       tData[cellHistory[cellHistory.length-1]].firstChild.setAttribute('value', valueHistory[valueHistory.length-1]);
+      // storeInfo = false;
+      // paletteValue = valueHistory[valueHistory.length-1];
+      // tData[cellHistory[cellHistory.length-1]] = tDataClickHandler;
+      // storeInfo = true;
 
       // if(tData[cellHistory[cellHistory.length-1]].firstChild.className == 'error') {
       //    tData[cellHistory[cellHistory.length-1]].firstChild.className = '';
       // }
+
+      // click undo to clear all the error classes on the board, then use the tDataClickHandler funciton on the specified tData index.
+      // palette value will be equal to the value on stack, then just use the tDataClickHandler function
    };
    
-   //  this.alert(testing3(1,2,3,4)); // for dubugging
+   // for dubugging
    // alert(document.getElementById("board").rows[0].cells[1].innerHTML);
    // alert(tData[1].firstChild.value); // Works, shows the value of 1
 
-   // ERROR CELLS
-      // for (y = 0; y < 9; y++) {     
-      //    if (boardPosition(errorCheckCell, y) == paletteValue) {
-      //       tData[boardPosition(errorCheckCell, y)].className = 'error';
-      //    }
-      // }
-
-      // tData[1].className = 'error';
-
-   // setInterval(function() {
+   
+   // setInterval(function() {  // note: use this to execute a piece of code every specified miliseconds interval
    //    // alert("hi");
-   // }, 1)
+   // }, 1000)
 
 }
 
-
+var storeInfo = true;
 var paletteValue;
 var cellHistory = [];
 var valueHistory = [];
-var errorCheckCell;
 
 // Input the palette value selected into the game board cell thats clicked
 function tDataClickHandler(e){
@@ -136,10 +136,12 @@ function tDataClickHandler(e){
    var tdElm = e.target||e.srcElement;
    if(tdElm.disabled == false && paletteValue != null) {
       tdElm.setAttribute('value', paletteValue);
-      // cellHistory.push(((this.parentElement.rowIndex + 1) * (this.cellIndex + 1)) - 1); // should be rx9+c
-      cellHistory.push(boardPosition(this.cellIndex, this.parentElement.rowIndex));
-      valueHistory.push(paletteValue);
-      errorCheckCell = this.cellIndex;
+
+      if (storeInfo) {
+         // cellHistory.push(((this.parentElement.rowIndex + 1) * (this.cellIndex + 1)) - 1); // should be rx9+c
+         cellHistory.push(boardPosition(this.cellIndex, this.parentElement.rowIndex));
+         valueHistory.push(paletteValue);
+      }
 
       // // ERROR CELLS
       // for (y = 0; y < 9; y++) {     
@@ -150,9 +152,12 @@ function tDataClickHandler(e){
       //       // tData[boardPosition(this.cellIndex, y)].firstChild.setAttribute('class', 'error');
       //    }
       // }
+
       var count = 0;
       var initialFindRow = 0;
       var initialFindCol = 0;
+
+      // Check row error
       for (var y = 0; y < 9; y++) { 
             var tDataTemp = document.getElementsByTagName("td");
 
@@ -174,10 +179,8 @@ function tDataClickHandler(e){
 
       count = 0;
 
-      for (var y = 0; y < 9; y++) {
-         // alert(this.cellIndex);
-         // alert(boardPosition(this.cellIndex, y));
-         // for (x=0; x < 9; x++) {     
+      // Check column error
+      for (var y = 0; y < 9; y++) {   
             var tDataTemp = document.getElementsByTagName("td");
             if ((sameColumn(tDataTemp[boardPosition(y, this.parentElement.rowIndex)].firstChild.value, 1, tdElm.value, 1) == true)) {
                if (count < 1) {
@@ -190,14 +193,45 @@ function tDataClickHandler(e){
                }
             }
       }
+
+      count = 0;
+      initialFindRow = 0;
+      initialFindCol = 0;
       
       
+      // Check same block error
+      // for (var y = 0; y < 9; y++) {
+      //    alert(tdElm.value);   
+      //    alert("y is: " + y);
+      //    alert("Column Cell: " + (Math.floor((tDataTemp[boardPosition(y, this.parentElement.rowIndex)].firstChild.value) / 3) * 3));
+      //    alert("Row Cell: " + (Math.floor((tDataTemp[boardPosition(this.cellIndex, y)].firstChild.value) / 3) * 3));
+      //    var tDataTemp = document.getElementsByTagName("td");
+      //    // if ((sameBlock(tDataTemp[boardPosition(y, this.parentElement.rowIndex)].firstChild.value, tDataTemp[boardPosition(this.cellIndex, y)].firstChild.value, tdElm.value, tdElm.value) == true)) {
+      //    if (sameBlock(tDataTemp[boardPosition(y, this.parentElement.rowIndex)].firstChild.value, tDataTemp[boardPosition(this.cellIndex, y)].firstChild.value, tdElm.value, tdElm.value)) { 
+      //       // if (count < 1) {
+      //       //    initialFindCol = boardPosition(y, this.parentElement.rowIndex);
+      //       //    initialFindRow = boardPosition(this.cellIndex, y);
+      //       // }
+      //       // count = count + 1;
+      //       // if(count > 1) {
+      //       //    tDataTemp[initialFindCol].firstChild.setAttribute('class', 'error');
+      //       //    tDataTemp[boardPosition(y, this.parentElement.rowIndex)].firstChild.setAttribute('class', 'error');
+
+      //       //    tDataTemp[initialFindRow].firstChild.setAttribute('class', 'error');
+      //       //    tDataTemp[boardPosition(this.cellIndex, y)].firstChild.setAttribute('class', 'error');
+      //       // }
+      //       // tdElm.className = 'error';
+      //       alert("found");
+      //    }
+      // }  
    }
 
    if(tdElm.disabled == false && paletteValue == null) {
       alert("Please select a number on the bottom palette then click a cell on the gameboard to set the value.");
    }
 }
+
+var undoHash = {};
 
 // 9x9 Sudoku board shown in 1D array. -1 is a blank cell.
 var boardData = [
@@ -234,16 +268,3 @@ function sameColumn(x1, y1, x2, y2) {
 function overlaps(x1, y1, x2, y2) {
    return sameBlock(x1, y1, x2, y2) || sameRow(x1, y1, x2, y2) || sameColumn(x1, y1, x2, y2);
 }
-
-
-// function testing(a1, a2) { // For Debugging
-//    return a1 == a2;
-// }
-
-// function testing2(b1, b2) {
-//    return b1 == b2;
-// }
-
-// function testing3(c1, c2, c3, c4) {
-//    return testing(c1, c2) || testing2(c3, c4);
-// }
