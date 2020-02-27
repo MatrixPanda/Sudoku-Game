@@ -151,40 +151,49 @@ function tDataClickHandler(e){
       //    }
       // }
       var count = 0;
-      var initialFind = 0;
+      var initialFindRow = 0;
+      var initialFindCol = 0;
+      for (var y = 0; y < 9; y++) { 
+            var tDataTemp = document.getElementsByTagName("td");
+
+            // if (overlaps(tDataTemp[boardPosition(y, this.parentElement.rowIndex)].firstChild.value, tDataTemp[boardPosition(this.cellIndex, y)].firstChild.value, tdElm.value, tdElm.value)) {
+            // if ((sameColumn(tDataTemp[boardPosition(y, this.parentElement.rowIndex)].firstChild.value, 1, tdElm.value, 1) == true)) {
+               
+            if ((sameRow(1, tDataTemp[boardPosition(this.cellIndex, y)].firstChild.value, 1, tdElm.value) == true)) {
+               if (count < 1) {
+                  initialFindRow = boardPosition(this.cellIndex, y);
+               }
+               count = count + 1;
+               if(count > 1) {
+                  tDataTemp[initialFindRow].firstChild.setAttribute('class', 'error');
+                  tDataTemp[boardPosition(this.cellIndex, y)].firstChild.setAttribute('class', 'error');
+               }
+            }
+
+      }
+
+      count = 0;
+
       for (var y = 0; y < 9; y++) {
          // alert(this.cellIndex);
          // alert(boardPosition(this.cellIndex, y));
          // for (x=0; x < 9; x++) {     
             var tDataTemp = document.getElementsByTagName("td");
-            if ((sameRow(1, tDataTemp[boardPosition(this.cellIndex, y)].firstChild.value, 1, tdElm.value) == true)) {
-               // alert(tDataTemp[boardPosition(this.cellIndex, y)].firstChild.value);
+            if ((sameColumn(tDataTemp[boardPosition(y, this.parentElement.rowIndex)].firstChild.value, 1, tdElm.value, 1) == true)) {
                if (count < 1) {
-                  initialFind = boardPosition(this.cellIndex, y);
+                  initialFindCol = boardPosition(y, this.parentElement.rowIndex);
                }
                count = count + 1;
                if(count > 1) {
-                  tDataTemp[initialFind].firstChild.setAttribute('class', 'error');
-                  tDataTemp[boardPosition(this.cellIndex, y)].firstChild.setAttribute('class', 'error');
+                  tDataTemp[initialFindCol].firstChild.setAttribute('class', 'error');
+                  tDataTemp[boardPosition(y, this.parentElement.rowIndex)].firstChild.setAttribute('class', 'error');
                }
-               
-               
-               // alert(count);
-               
-               
-               // tdElm.className = 'error';
-               // tDataTemp[boardPosition(this.cellIndex, y)].firstChild.setAttribute('class', 'error');
-               
-               // var tData = document.getElementsByTagName("td");
-               // tData[boardPosition(this.cellIndex, y)].firstChild.setAttribute('class', 'error');
             }
-
-            
-         // }
       }
-         
-
+      
+      
    }
+
    if(tdElm.disabled == false && paletteValue == null) {
       alert("Please select a number on the bottom palette then click a cell on the gameboard to set the value.");
    }
