@@ -84,9 +84,12 @@ window.onload = function() {
       // for (var i = valueHistory.length-1; i >= 0; i--) {
       //    alert(valueHistory[i]);  
       // }
-
-      tData[cellHistory.pop()].firstChild.value = 1;
-      // alert(cellHistory.pop());
+      
+      // alert(cellHistory.length);
+      // alert(cellHistory[cellHistory.length-1]);
+      tData[cellHistory.pop()].firstChild.value = "";
+      valueHistory.pop();
+      tData[cellHistory[cellHistory.length-1]].firstChild.value = valueHistory[valueHistory.length-1];
    };
 
    // Input the palette value selected into the game board cell thats clicked
