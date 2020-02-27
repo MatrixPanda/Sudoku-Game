@@ -27,15 +27,43 @@ header {
 
 
 
-table {
+/* table { */
     /* border: 2px solid #000000; */
-    border-collapse: collapse;
-}
+    /* border-collapse: collapse;
+} */
 
-td {
+/* td {
     border: 1px solid #000000;
     text-align: center;
     vertical-align: middle;  
+} */
+
+table {
+    border-collapse: collapse;
+    margin:1em auto;
+}
+
+td {
+    height:30px;
+    width:30px;
+    border:1px solid;
+    text-align:center;
+}
+
+td:first-child {
+    border-left: 3px solid;
+}
+
+td:nth-child(3n) {
+    border-right: 3px solid;
+}
+
+tr:first-child {
+    border-top: 3px solid;
+}
+
+tr:nth-child(3n) td {
+    border-bottom: 3px solid;
 }
 
 input {
@@ -62,7 +90,11 @@ input:disabled {
     background-color: #EEEEEE;
 }
 
-#cell-0,  #cell-1,  #cell-2  { border-top:    2px solid #000000; }
+.error {
+    background-color: #f76c5e;
+}
+
+/* #cell-0,  #cell-1,  #cell-2  { border-top:    2px solid #000000; }
 #cell-2,  #cell-11, #cell-20 { border-right:  2px solid #000000; }
 #cell-18, #cell-19, #cell-20 { border-bottom: 2px solid #000000; }
 #cell-0,  #cell-9,  #cell-18 { border-left:   2px solid #000000; }
@@ -105,7 +137,7 @@ input:disabled {
 #cell-60, #cell-61, #cell-62 { border-top:    2px solid #000000; }
 #cell-62, #cell-71, #cell-80 { border-right:  2px solid #000000; }
 #cell-78, #cell-79, #cell-80 { border-bottom: 2px solid #000000; }
-#cell-60, #cell-69, #cell-78 { border-left:   2px solid #000000; }
+#cell-60, #cell-69, #cell-78 { border-left:   2px solid #000000; } */
 
 #palette {
     display: flex;

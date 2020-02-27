@@ -15,7 +15,7 @@ window.onload = function() {
          let input = document.createElement('input');
          input.setAttribute('type', 'text');
          input.setAttribute('value', num);
-         input.setAttribute('id', 'cell-' + this.boardPosition(x, y));
+         // input.setAttribute('id', 'cell-' + this.boardPosition(x, y));
          if(boardData[this.boardPosition(x, y)] != -1) {
             input.setAttribute('disabled', "");
          }
@@ -29,16 +29,6 @@ window.onload = function() {
          insertToDom.appendChild(newTd);
       } 
    }
-   
-   // var tData = document.getElementsByTagName("li");
-   // for (var i=0; i<tData.length; i++) {
-   //    this.alert(tData[i].value);
-   //    tData[i].onclick = function() {
-   //       alert(tData[i].value);
-   //    }  
-   // }
-
-   
 
    // innerText for most browsers, textContent for Firefox (seems like either one works for all browers now!)
    let button1 = document.getElementById('p1');
@@ -87,22 +77,40 @@ window.onload = function() {
       paletteValue = button9.innerText || button9.textContent;
    };
 
+   // UNDO THE STEPS
    let buttonUndo = document.getElementById('undo');
    buttonUndo.onclick = function() {
-      alert(paletteValue);
+      // alert(paletteValue);
+      // for (var i = valueHistory.length-1; i >= 0; i--) {
+      //    alert(valueHistory[i]);  
+      // }
+
+      tData[cellHistory.pop()].firstChild.value = 1;
+      // alert(cellHistory.pop());
    };
 
    // Input the palette value selected into the game board cell thats clicked
    var tData = document.getElementsByTagName("td");
-    for (var i=0; i<tData.length; i++) {
-        tData[i].onclick = tDataClickHandler;  
-    }
+   for (var i=0; i<tData.length; i++) {
+      tData[i].onclick = tDataClickHandler;  
+   }
    
-   
+   //  this.alert(testing3(1,2,3,4)); // for dubugging
+   // alert(document.getElementById("board").rows[0].cells[1].innerHTML);
+   // alert(tData[1].firstChild.value); // Works, show the value of 1
+
+   // for (y = 0; y < 9; y++) {     
+   //    for (x=0; x < 9; x++) {
+         
+   //    } 
+   // }
+
 }
 
 
-var paletteValue; 
+var paletteValue;
+var cellHistory = [];
+var valueHistory = []; 
 
 // Input the palette value selected into the game board cell thats clicked
 function tDataClickHandler(e){
@@ -110,6 +118,9 @@ function tDataClickHandler(e){
    var tdElm = e.target||e.srcElement;
    if(tdElm.disabled == false && paletteValue != null) {
       tdElm.setAttribute('value', paletteValue);
+      // cellHistory.push(((this.parentElement.rowIndex + 1) * (this.cellIndex + 1)) - 1); // should be rx9+c
+      cellHistory.push(boardPosition(this.cellIndex, this.parentElement.rowIndex));
+      valueHistory.push(paletteValue);
    }
    if(tdElm.disabled == false && paletteValue == null) {
       alert("Please select a number on the bottom palette then click a cell on the gameboard to set the value.");
@@ -151,3 +162,16 @@ function sameColumn(x1, y1, x2, y2) {
 function overlaps(x1, y1, x2, y2) {
    return sameBlock(x1, y1, x2, y2) || sameRow(x1, y1, x2, y2) || sameColumn(x1, y1, x2, y2);
 }
+
+
+// function testing(a1, a2) { // For Debugging
+//    return a1 == a2;
+// }
+
+// function testing2(b1, b2) {
+//    return b1 == b2;
+// }
+
+// function testing3(c1, c2, c3, c4) {
+//    return testing(c1, c2) || testing2(c3, c4);
+// }
