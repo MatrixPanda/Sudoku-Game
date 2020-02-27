@@ -1,17 +1,4 @@
 window.onload = function() {
-//    let drawRow = document.getElementById('board');
-
-//    drawRow.onkeypress = function(event) {
-      
-//       if(event.keyCode == 13) {
-//          alert("Enter Pressed!");
-
-//          // let content = document.createTextNode('1');
-//          // let newTd = document.createElement('td');
-//          // newTd.appendChild(content);
-//       }
-//   };
-
    // dynamically create new DOM nodes
    var y;
    var x;
@@ -43,11 +30,93 @@ window.onload = function() {
       } 
    }
    
+   // var tData = document.getElementsByTagName("li");
+   // for (var i=0; i<tData.length; i++) {
+   //    this.alert(tData[i].value);
+   //    tData[i].onclick = function() {
+   //       alert(tData[i].value);
+   //    }  
+   // }
+
    
 
+   // innerText for most browsers, textContent for Firefox (seems like either one works for all browers now!)
+   let button1 = document.getElementById('p1');
+   button1.onclick = function() {
+      paletteValue = button1.innerText || button1.textContent;
+      // alert(paletteValue);
+   };
+
+   let button2 = document.getElementById('p2');
+   button2.onclick = function() {
+      paletteValue = button2.innerText || button2.textContent;
+   };
+
+   let button3 = document.getElementById('p3');
+   button3.onclick = function() {
+      paletteValue = button3.innerText || button3.textContent;
+   };
+
+   let button4 = document.getElementById('p4');
+   button4.onclick = function() {
+      paletteValue = button4.innerText || button4.textContent;
+   };
+
+   let button5 = document.getElementById('p5');
+   button5.onclick = function() {
+      paletteValue = button5.innerText || button5.textContent;
+   };
+
+   let button6 = document.getElementById('p6');
+   button6.onclick = function() {
+      paletteValue = button6.innerText || button6.textContent;
+   };
+
+   let button7 = document.getElementById('p7');
+   button7.onclick = function() {
+      paletteValue = button7.innerText || button7.textContent;
+   };
+
+   let button8 = document.getElementById('p8');
+   button8.onclick = function() {
+      paletteValue = button8.innerText || button8.textContent;
+   };
+
+   let button9 = document.getElementById('p9');
+   button9.onclick = function() {
+      paletteValue = button9.innerText || button9.textContent;
+   };
+
+   let buttonUndo = document.getElementById('undo');
+   buttonUndo.onclick = function() {
+      alert(paletteValue);
+   };
+
+   // Input the palette value selected into the game board cell thats clicked
+   var tData = document.getElementsByTagName("td");
+    for (var i=0; i<tData.length; i++) {
+        tData[i].onclick = tDataClickHandler;  
+    }
+   
+   
 }
 
 
+var paletteValue; 
+
+// Input the palette value selected into the game board cell thats clicked
+function tDataClickHandler(e){
+   e = e||window.event;
+   var tdElm = e.target||e.srcElement;
+   if(tdElm.disabled == false && paletteValue != null) {
+      tdElm.setAttribute('value', paletteValue);
+   }
+   if(tdElm.disabled == false && paletteValue == null) {
+      alert("Please select a number on the bottom palette then click a cell on the gameboard to set the value.");
+   }
+}
+
+// 9x9 Sudoku board shown in 1D array. -1 is a blank cell.
 var boardData = [
    -1,  1, -1, -1, -1, -1, -1,  9, -1,
    -1, -1,  4, -1, -1, -1,  2, -1, -1,

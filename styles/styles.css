@@ -54,6 +54,10 @@ input:hover {
     background-color: #f5dd90;
 }
 
+input:active {
+    background-color: #f5c423;
+}
+
 input:disabled {
     background-color: #EEEEEE;
 }
@@ -129,6 +133,10 @@ input:disabled {
     cursor: pointer;
 }
 
+#palette > li:active {
+    background-color: #f5c423;
+}
+
 #undo {
     background: url("../images/undo.png");
     background-position: center;
@@ -136,3 +144,5 @@ input:disabled {
     background-size: 55%; 
     /* overflow: hidden; */
 }
+
+#p1, #p2, #p3, #p4, #p5, #p6, #p7, #p8, #p9 { border-right:  2px solid #000000; }
