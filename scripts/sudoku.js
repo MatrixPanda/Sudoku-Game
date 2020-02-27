@@ -77,6 +77,12 @@ window.onload = function() {
       paletteValue = button9.innerText || button9.textContent;
    };
 
+   // Input the palette value selected into the game board cell thats clicked
+   var tData = document.getElementsByTagName("td");
+   for (var i=0; i<tData.length; i++) {
+      tData[i].onclick = tDataClickHandler;  
+   }
+
    // UNDO THE STEPS
    let buttonUndo = document.getElementById('undo');
    buttonUndo.onclick = function() {
@@ -87,16 +93,12 @@ window.onload = function() {
       
       // alert(cellHistory.length);
       // alert(cellHistory[cellHistory.length-1]);
-      tData[cellHistory.pop()].firstChild.value = "";
+      // tData[cellHistory.pop()].firstChild.value = "";
+      tData[cellHistory.pop()].firstChild.setAttribute('value', "");
       valueHistory.pop();
-      tData[cellHistory[cellHistory.length-1]].firstChild.value = valueHistory[valueHistory.length-1];
+      // tData[cellHistory[cellHistory.length-1]].firstChild.value = valueHistory[valueHistory.length-1];
+      tData[cellHistory[cellHistory.length-1]].firstChild.setAttribute('value', valueHistory[valueHistory.length-1]);
    };
-
-   // Input the palette value selected into the game board cell thats clicked
-   var tData = document.getElementsByTagName("td");
-   for (var i=0; i<tData.length; i++) {
-      tData[i].onclick = tDataClickHandler;  
-   }
    
    //  this.alert(testing3(1,2,3,4)); // for dubugging
    // alert(document.getElementById("board").rows[0].cells[1].innerHTML);
