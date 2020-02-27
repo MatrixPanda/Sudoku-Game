@@ -17,7 +17,7 @@ window.onload = function() {
          input.setAttribute('value', num);
          // input.setAttribute('id', 'cell-' + this.boardPosition(x, y));
          if(boardData[this.boardPosition(x, y)] != -1) {
-            input.setAttribute('disabled', "");
+           // input.setAttribute('disabled', "");
          }
          // input.appendChild(content);
 
@@ -90,7 +90,8 @@ window.onload = function() {
       // for (var i = valueHistory.length-1; i >= 0; i--) {
       //    alert(valueHistory[i]);  
       // }
-      
+
+      // alert(errorCheckCell);
       // alert(cellHistory.length);
       // alert(cellHistory[cellHistory.length-1]);
       // tData[cellHistory.pop()].firstChild.value = "";
@@ -98,24 +99,36 @@ window.onload = function() {
       valueHistory.pop();
       // tData[cellHistory[cellHistory.length-1]].firstChild.value = valueHistory[valueHistory.length-1];
       tData[cellHistory[cellHistory.length-1]].firstChild.setAttribute('value', valueHistory[valueHistory.length-1]);
+
+      // if(tData[cellHistory[cellHistory.length-1]].firstChild.className == 'error') {
+      //    tData[cellHistory[cellHistory.length-1]].firstChild.className = '';
+      // }
    };
    
    //  this.alert(testing3(1,2,3,4)); // for dubugging
    // alert(document.getElementById("board").rows[0].cells[1].innerHTML);
-   // alert(tData[1].firstChild.value); // Works, show the value of 1
+   // alert(tData[1].firstChild.value); // Works, shows the value of 1
 
-   // for (y = 0; y < 9; y++) {     
-   //    for (x=0; x < 9; x++) {
-         
-   //    } 
-   // }
+   // ERROR CELLS
+      // for (y = 0; y < 9; y++) {     
+      //    if (boardPosition(errorCheckCell, y) == paletteValue) {
+      //       tData[boardPosition(errorCheckCell, y)].className = 'error';
+      //    }
+      // }
+
+      // tData[1].className = 'error';
+
+   // setInterval(function() {
+   //    // alert("hi");
+   // }, 1)
 
 }
 
 
 var paletteValue;
 var cellHistory = [];
-var valueHistory = []; 
+var valueHistory = [];
+var errorCheckCell;
 
 // Input the palette value selected into the game board cell thats clicked
 function tDataClickHandler(e){
@@ -126,6 +139,51 @@ function tDataClickHandler(e){
       // cellHistory.push(((this.parentElement.rowIndex + 1) * (this.cellIndex + 1)) - 1); // should be rx9+c
       cellHistory.push(boardPosition(this.cellIndex, this.parentElement.rowIndex));
       valueHistory.push(paletteValue);
+      errorCheckCell = this.cellIndex;
+
+      // // ERROR CELLS
+      // for (y = 0; y < 9; y++) {     
+      //    if (boardPosition(this.cellIndex, y) == paletteValue) {
+            
+      //       tdElm.className = 'error';
+      //       // var tData = document.getElementsByTagName("td");
+      //       // tData[boardPosition(this.cellIndex, y)].firstChild.setAttribute('class', 'error');
+      //    }
+      // }
+      var count = 0;
+      var initialFind = 0;
+      for (var y = 0; y < 9; y++) {
+         // alert(this.cellIndex);
+         // alert(boardPosition(this.cellIndex, y));
+         // for (x=0; x < 9; x++) {     
+            var tDataTemp = document.getElementsByTagName("td");
+            if ((sameRow(1, tDataTemp[boardPosition(this.cellIndex, y)].firstChild.value, 1, tdElm.value) == true)) {
+               // alert(tDataTemp[boardPosition(this.cellIndex, y)].firstChild.value);
+               if (count < 1) {
+                  initialFind = boardPosition(this.cellIndex, y);
+               }
+               count = count + 1;
+               if(count > 1) {
+                  tDataTemp[initialFind].firstChild.setAttribute('class', 'error');
+                  tDataTemp[boardPosition(this.cellIndex, y)].firstChild.setAttribute('class', 'error');
+               }
+               
+               
+               // alert(count);
+               
+               
+               // tdElm.className = 'error';
+               // tDataTemp[boardPosition(this.cellIndex, y)].firstChild.setAttribute('class', 'error');
+               
+               // var tData = document.getElementsByTagName("td");
+               // tData[boardPosition(this.cellIndex, y)].firstChild.setAttribute('class', 'error');
+            }
+
+            
+         // }
+      }
+         
+
    }
    if(tdElm.disabled == false && paletteValue == null) {
       alert("Please select a number on the bottom palette then click a cell on the gameboard to set the value.");
