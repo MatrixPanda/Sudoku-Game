@@ -113,7 +113,7 @@ window.onload = function() {
       // paletteValue = undoHash[hist][undoHash[hist].length-1];
       // tData[hist] = tDataClickHandler;
       // storeInfo = true;
-      
+
       // click undo to clear all the error classes on the board, then use the tDataClickHandler funciton on the specified tData index.
       // palette value will be equal to the value on stack, then just use the tDataClickHandler function
    };
@@ -153,6 +153,14 @@ function tDataClickHandler(e){
       if (storeInfo) {
          cellHistory.push(boardPosition(this.cellIndex, this.parentElement.rowIndex));
          undoHash[boardPosition(this.cellIndex, this.parentElement.rowIndex)].push(paletteValue);
+      }
+
+      // Deletes any existing error cell idicators so that only the error cells for the current move will show.
+      for(var i = 0; i < 81; i++) {
+         var tData = document.getElementsByTagName("td");
+         if(tData[i].firstChild.className == 'error') {
+            tData[i].firstChild.className = '';
+         }
       }
 
       // // ERROR CELLS
@@ -235,7 +243,22 @@ function tDataClickHandler(e){
       //       // tdElm.className = 'error';
       //       alert("found");
       //    }
-      // }  
+      // }
+      
+      
+      // for (var y = 0; y < 9; y++) {   
+      //    var tDataTemp = document.getElementsByTagName("td");
+      //    console.log(checkBlock(tDataTemp[boardPosition(y, this.parentElement.rowIndex)].firstChild.value, tDataTemp[boardPosition(this.cellIndex, y)].firstChild.value));
+            
+      // }
+
+      // for (var row = 0; row < 9; row++) {   
+      //    // for (var col = 0; col < 9; col++) {   
+      //    //    console.log(checkBlock(col, row));
+      //    // }
+      //    console.log(checkBlock2(tDataTemp[boardPosition(this.cellIndex, row)].firstChild.value, tDataTemp[boardPosition(row, this.parentElement.rowIndex)].firstChild.value));
+      //    console.log("------------------" + row);  
+      // }
    }
 
    if(tdElm.disabled == false && paletteValue == null) {
@@ -278,3 +301,21 @@ function sameColumn(x1, y1, x2, y2) {
 function overlaps(x1, y1, x2, y2) {
    return sameBlock(x1, y1, x2, y2) || sameRow(x1, y1, x2, y2) || sameColumn(x1, y1, x2, y2);
 }
+
+// function checkBlock(col, row) {
+//    // let gridRow = Math.floor( row / 3 );
+//    // let gridCol = Math.floor( col / 3 );
+//    // let gridIndex = gridRow * 3 + gridCol;
+//    let firstRow = Math.floor(row / 3) * 3;
+//    let firstCol = Math.floor(col / 3) * 3;
+
+//    return "Row: " + firstRow + " " + "Col: " + firstCol;
+// }
+
+// function checkBlock2(col, row) {
+//    let gridRow = Math.floor( row / 3 );
+//    let gridCol = Math.floor( col / 3 );
+//    let gridIndex = gridRow * 3 + gridCol;
+   
+//    return gridIndex;
+// }
