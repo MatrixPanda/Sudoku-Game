@@ -148,6 +148,8 @@ var valueHistory = [];
 function tDataClickHandler(e){
    e = e||window.event;
    var tdElm = e.target||e.srcElement;
+   var tDataTemp = document.getElementsByTagName("td");
+
    if(tdElm.disabled == false && paletteValue != null) {
       tdElm.setAttribute('value', paletteValue);
       if (storeInfo) {
@@ -157,9 +159,8 @@ function tDataClickHandler(e){
 
       // Deletes any existing error cell idicators so that only the error cells for the current move will show.
       for(var i = 0; i < 81; i++) {
-         var tData = document.getElementsByTagName("td");
-         if(tData[i].firstChild.className == 'error') {
-            tData[i].firstChild.className = '';
+         if(tDataTemp[i].firstChild.className == 'error') {
+            tDataTemp[i].firstChild.className = '';
          }
       }
 
@@ -176,11 +177,10 @@ function tDataClickHandler(e){
       var count = 0;
       var initialFindRow = 0;
       var initialFindCol = 0;
+      var initialFindBlock = 0;
 
       // Check row error
       for (var y = 0; y < 9; y++) { 
-            var tDataTemp = document.getElementsByTagName("td");
-
             // if (overlaps(tDataTemp[boardPosition(y, this.parentElement.rowIndex)].firstChild.value, tDataTemp[boardPosition(this.cellIndex, y)].firstChild.value, tdElm.value, tdElm.value)) {
             // if ((sameColumn(tDataTemp[boardPosition(y, this.parentElement.rowIndex)].firstChild.value, 1, tdElm.value, 1) == true)) {
                
@@ -201,7 +201,6 @@ function tDataClickHandler(e){
 
       // Check column error
       for (var y = 0; y < 9; y++) {   
-            var tDataTemp = document.getElementsByTagName("td");
             if ((sameColumn(tDataTemp[boardPosition(y, this.parentElement.rowIndex)].firstChild.value, 1, tdElm.value, 1) == true)) {
                if (count < 1) {
                   initialFindCol = boardPosition(y, this.parentElement.rowIndex);
@@ -244,21 +243,171 @@ function tDataClickHandler(e){
       //       alert("found");
       //    }
       // }
-      
-      
-      // for (var y = 0; y < 9; y++) {   
-      //    var tDataTemp = document.getElementsByTagName("td");
-      //    console.log(checkBlock(tDataTemp[boardPosition(y, this.parentElement.rowIndex)].firstChild.value, tDataTemp[boardPosition(this.cellIndex, y)].firstChild.value));
-            
-      // }
 
-      // for (var row = 0; row < 9; row++) {   
-      //    // for (var col = 0; col < 9; col++) {   
-      //    //    console.log(checkBlock(col, row));
-      //    // }
-      //    console.log(checkBlock2(tDataTemp[boardPosition(this.cellIndex, row)].firstChild.value, tDataTemp[boardPosition(row, this.parentElement.rowIndex)].firstChild.value));
-      //    console.log("------------------" + row);  
-      // }
+      // 1st
+      if (this.parentElement.rowIndex < 3 && this.cellIndex < 3) {
+         console.log("1st");
+         for (var r = 0; r < 3; r++) {   
+            for (var c = 0; c < 3; c++) {
+               console.log(boardPosition(r,c));
+               if (tDataTemp[boardPosition(r,c)].firstChild.value == tdElm.value) {
+                  if (count < 1) {
+                     initialFindBlock = boardPosition(r,c);
+                  }
+                  count = count + 1;
+                  if(count > 1) {
+                     tDataTemp[initialFindBlock].firstChild.setAttribute('class', 'error');
+                     tDataTemp[boardPosition(r,c)].firstChild.setAttribute('class', 'error');
+                  }
+               }
+            }
+         }
+
+         // 2nd
+      } else if (this.parentElement.rowIndex < 3 && this.cellIndex < 6) {
+         for (var r = 0; r < 3; r++) {   
+            for (var c = 0; c < 3; c++) {
+               var pos = boardPosition(r,c) + 3;
+               if (tDataTemp[pos].firstChild.value == tdElm.value) {
+                  if (count < 1) {
+                     initialFindBlock = pos;
+                  }
+                  count = count + 1;
+                  if(count > 1) {
+                     tDataTemp[initialFindBlock].firstChild.setAttribute('class', 'error');
+                     tDataTemp[pos].firstChild.setAttribute('class', 'error');
+                  }
+               }
+            }
+         }
+
+         // 3rd
+      } else if (this.parentElement.rowIndex < 3 && this.cellIndex < 9) {
+         for (var r = 0; r < 3; r++) {   
+            for (var c = 0; c < 3; c++) {
+               console.log(boardPosition(r,c) + 6);
+               var pos = boardPosition(r,c) + 6;
+               if (tDataTemp[pos].firstChild.value == tdElm.value) {
+                  if (count < 1) {
+                     initialFindBlock = pos;
+                  }
+                  count = count + 1;
+                  if(count > 1) {
+                     tDataTemp[initialFindBlock].firstChild.setAttribute('class', 'error');
+                     tDataTemp[pos].firstChild.setAttribute('class', 'error');
+                  }
+               }
+            }
+         }
+
+         // 4th
+      } else if (this.parentElement.rowIndex < 6 && this.cellIndex < 3) {
+         for (var r = 0; r < 3; r++) {   
+            for (var c = 0; c < 3; c++) {
+               var pos = boardPosition(r,c) + 27;
+               if (tDataTemp[pos].firstChild.value == tdElm.value) {
+                  if (count < 1) {
+                     initialFindBlock = pos;
+                  }
+                  count = count + 1;
+                  if(count > 1) {
+                     tDataTemp[initialFindBlock].firstChild.setAttribute('class', 'error');
+                     tDataTemp[pos].firstChild.setAttribute('class', 'error');
+                  }
+               }
+            }
+         }
+
+         // 5th
+      } else if (this.parentElement.rowIndex < 6 && this.cellIndex < 6) {
+         for (var r = 0; r < 3; r++) {   
+            for (var c = 0; c < 3; c++) {
+               var pos = boardPosition(r,c) + 30;
+               if (tDataTemp[pos].firstChild.value == tdElm.value) {
+                  if (count < 1) {
+                     initialFindBlock = pos;
+                  }
+                  count = count + 1;
+                  if(count > 1) {
+                     tDataTemp[initialFindBlock].firstChild.setAttribute('class', 'error');
+                     tDataTemp[pos].firstChild.setAttribute('class', 'error');
+                  }
+               }
+            }
+         }
+
+         // 6th
+      } else if (this.parentElement.rowIndex < 6 && this.cellIndex < 9) {
+         for (var r = 0; r < 3; r++) {   
+            for (var c = 0; c < 3; c++) {
+               var pos = boardPosition(r,c) + 33;
+               if (tDataTemp[pos].firstChild.value == tdElm.value) {
+                  if (count < 1) {
+                     initialFindBlock = pos;
+                  }
+                  count = count + 1;
+                  if(count > 1) {
+                     tDataTemp[initialFindBlock].firstChild.setAttribute('class', 'error');
+                     tDataTemp[pos].firstChild.setAttribute('class', 'error');
+                  }
+               }
+            }
+         }
+
+         // 7th
+      } else if (this.parentElement.rowIndex < 9 && this.cellIndex < 3) {
+         for (var r = 0; r < 3; r++) {   
+            for (var c = 0; c < 3; c++) {
+               var pos = boardPosition(r,c) + 54;
+               if (tDataTemp[pos].firstChild.value == tdElm.value) {
+                  if (count < 1) {
+                     initialFindBlock = pos;
+                  }
+                  count = count + 1;
+                  if(count > 1) {
+                     tDataTemp[initialFindBlock].firstChild.setAttribute('class', 'error');
+                     tDataTemp[pos].firstChild.setAttribute('class', 'error');
+                  }
+               }
+            }
+         }
+
+         // 8th
+      } else if (this.parentElement.rowIndex < 9 && this.cellIndex < 6) {
+         for (var r = 0; r < 3; r++) {   
+            for (var c = 0; c < 3; c++) {
+               var pos = boardPosition(r,c) + 57;
+               if (tDataTemp[pos].firstChild.value == tdElm.value) {
+                  if (count < 1) {
+                     initialFindBlock = pos;
+                  }
+                  count = count + 1;
+                  if(count > 1) {
+                     tDataTemp[initialFindBlock].firstChild.setAttribute('class', 'error');
+                     tDataTemp[pos].firstChild.setAttribute('class', 'error');
+                  }
+               }
+            }
+         }
+
+         // 9th
+      } else if (this.parentElement.rowIndex < 9 && this.cellIndex < 9) {
+         for (var r = 0; r < 3; r++) {   
+            for (var c = 0; c < 3; c++) {
+               var pos = boardPosition(r,c) + 60;
+               if (tDataTemp[pos].firstChild.value == tdElm.value) {
+                  if (count < 1) {
+                     initialFindBlock = pos;
+                  }
+                  count = count + 1;
+                  if(count > 1) {
+                     tDataTemp[initialFindBlock].firstChild.setAttribute('class', 'error');
+                     tDataTemp[pos].firstChild.setAttribute('class', 'error');
+                  }
+               }
+            }
+         }
+      }
    }
 
    if(tdElm.disabled == false && paletteValue == null) {
