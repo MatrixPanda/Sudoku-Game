@@ -86,73 +86,49 @@ window.onload = function() {
    // UNDO THE STEPS
    let buttonUndo = document.getElementById('undo');
    buttonUndo.onclick = function() {
-      // alert(paletteValue);
-      // for (var i = valueHistory.length-1; i >= 0; i--) {
-      //    alert(valueHistory[i]);  
-      // }
-
-      // alert(errorCheckCell);
-      // alert(cellHistory.length);
-      // alert(cellHistory[cellHistory.length-1]);
-      // tData[cellHistory.pop()].firstChild.value = "";
-
       var hist = cellHistory.pop();
-
-      // alert(hist);
-      // alert (undoHash[hist].pop());
 
       tData[hist].firstChild.setAttribute('value', "");
       undoHash[hist].pop();
-      // alert(undoHash[hist].pop());
-      // alert("LENGTH: " + undoHash[hist].length);
-
-      // valueHistory.pop();
-
-      // alert(undoHash[2].pop());
-
-      // tData[cellHistory[cellHistory.length-1]].firstChild.value = valueHistory[valueHistory.length-1];
-
-      // working version
-      // tData[cellHistory[cellHistory.length-1]].firstChild.setAttribute('value', valueHistory[valueHistory.length-1]);
 
       if (undoHash[hist].length > 0) {
+         // Good working version
          tData[hist].firstChild.setAttribute('value', undoHash[hist][undoHash[hist].length-1]);
-
-         // alert("most recent cell touched: " + cellHistory[cellHistory.length-1]);
-         // alert("length of hash for this cell: " + undoHash[cellHistory[cellHistory.length-1]].length);
-         // alert("Value popped: " + undoHash[cellHistory[cellHistory.length-1]].pop());
-         // alert("new length of hash for this cell: " + undoHash[cellHistory[cellHistory.length-1]].length);
-         // alert("next value: " + undoHash[cellHistory[cellHistory.length-1]].pop());
       }
-      // alert("most recent cell touched: " + cellHistory[cellHistory.length-1]);
-      // alert("length of hash for this cell: " + undoHash[cellHistory[cellHistory.length-1]].length);
-      // alert("Value popped: " + undoHash[cellHistory[cellHistory.length-1]].pop());
-      // alert("new length of hash for this cell: " + undoHash[cellHistory[cellHistory.length-1]].length);
-      // alert("next value: " + undoHash[cellHistory[cellHistory.length-1]].pop());
+
+      // clear all error cell indicators
+      for(var i = 0; i < 81; i++) {
+         if(tData[i].firstChild.className == 'error') {
+            tData[i].firstChild.className = '';
+         }
+      }
+
+      // note: else { take the value thats just deleted, and check for its error cells, then erase all of those error cells }
       // storeInfo = false;
       // paletteValue = valueHistory[valueHistory.length-1];
       // tData[cellHistory[cellHistory.length-1]] = tDataClickHandler;
       // storeInfo = true;
 
-      // if(tData[cellHistory[cellHistory.length-1]].firstChild.className == 'error') {
-      //    tData[cellHistory[cellHistory.length-1]].firstChild.className = '';
-      // }
-
+      // storeInfo = false;
+      // paletteValue = undoHash[hist][undoHash[hist].length-1];
+      // tData[hist] = tDataClickHandler;
+      // storeInfo = true;
+      
       // click undo to clear all the error classes on the board, then use the tDataClickHandler funciton on the specified tData index.
       // palette value will be equal to the value on stack, then just use the tDataClickHandler function
    };
    
+
    // for dubugging
    // alert(document.getElementById("board").rows[0].cells[1].innerHTML);
    // alert(tData[1].firstChild.value); // Works, shows the value of 1
 
-   
    // setInterval(function() {  // note: use this to execute a piece of code every specified miliseconds interval
    //    // alert("hi");
    // }, 1000)
-
-   
 }
+
+
 
 // Initialize all 0-80 hash keys and empty arrays?
 var undoHash = {};
@@ -174,11 +150,8 @@ function tDataClickHandler(e){
    var tdElm = e.target||e.srcElement;
    if(tdElm.disabled == false && paletteValue != null) {
       tdElm.setAttribute('value', paletteValue);
-
       if (storeInfo) {
-         // cellHistory.push(((this.parentElement.rowIndex + 1) * (this.cellIndex + 1)) - 1); // should be rx9+c
          cellHistory.push(boardPosition(this.cellIndex, this.parentElement.rowIndex));
-         // valueHistory.push(paletteValue);
          undoHash[boardPosition(this.cellIndex, this.parentElement.rowIndex)].push(paletteValue);
       }
 
