@@ -95,12 +95,40 @@ window.onload = function() {
       // alert(cellHistory.length);
       // alert(cellHistory[cellHistory.length-1]);
       // tData[cellHistory.pop()].firstChild.value = "";
-      tData[cellHistory.pop()].firstChild.setAttribute('value', "");
-      valueHistory.pop();
+
+      var hist = cellHistory.pop();
+
+      // alert(hist);
+      // alert (undoHash[hist].pop());
+
+      tData[hist].firstChild.setAttribute('value', "");
+      undoHash[hist].pop();
+      // alert(undoHash[hist].pop());
+      // alert("LENGTH: " + undoHash[hist].length);
+
+      // valueHistory.pop();
+
+      // alert(undoHash[2].pop());
+
       // tData[cellHistory[cellHistory.length-1]].firstChild.value = valueHistory[valueHistory.length-1];
 
       // working version
-      tData[cellHistory[cellHistory.length-1]].firstChild.setAttribute('value', valueHistory[valueHistory.length-1]);
+      // tData[cellHistory[cellHistory.length-1]].firstChild.setAttribute('value', valueHistory[valueHistory.length-1]);
+
+      if (undoHash[hist].length > 0) {
+         tData[hist].firstChild.setAttribute('value', undoHash[hist][undoHash[hist].length-1]);
+
+         // alert("most recent cell touched: " + cellHistory[cellHistory.length-1]);
+         // alert("length of hash for this cell: " + undoHash[cellHistory[cellHistory.length-1]].length);
+         // alert("Value popped: " + undoHash[cellHistory[cellHistory.length-1]].pop());
+         // alert("new length of hash for this cell: " + undoHash[cellHistory[cellHistory.length-1]].length);
+         // alert("next value: " + undoHash[cellHistory[cellHistory.length-1]].pop());
+      }
+      // alert("most recent cell touched: " + cellHistory[cellHistory.length-1]);
+      // alert("length of hash for this cell: " + undoHash[cellHistory[cellHistory.length-1]].length);
+      // alert("Value popped: " + undoHash[cellHistory[cellHistory.length-1]].pop());
+      // alert("new length of hash for this cell: " + undoHash[cellHistory[cellHistory.length-1]].length);
+      // alert("next value: " + undoHash[cellHistory[cellHistory.length-1]].pop());
       // storeInfo = false;
       // paletteValue = valueHistory[valueHistory.length-1];
       // tData[cellHistory[cellHistory.length-1]] = tDataClickHandler;
@@ -123,7 +151,17 @@ window.onload = function() {
    //    // alert("hi");
    // }, 1000)
 
+   
 }
+
+// Initialize all 0-80 hash keys and empty arrays?
+var undoHash = {};
+for (var i = 0; i < 81; i++) {
+   undoHash[i] = [];
+}
+// undoHash[2].push(2);
+// undoHash[2].push(3);
+// undoHash[2].push(5);
 
 var storeInfo = true;
 var paletteValue;
@@ -140,7 +178,8 @@ function tDataClickHandler(e){
       if (storeInfo) {
          // cellHistory.push(((this.parentElement.rowIndex + 1) * (this.cellIndex + 1)) - 1); // should be rx9+c
          cellHistory.push(boardPosition(this.cellIndex, this.parentElement.rowIndex));
-         valueHistory.push(paletteValue);
+         // valueHistory.push(paletteValue);
+         undoHash[boardPosition(this.cellIndex, this.parentElement.rowIndex)].push(paletteValue);
       }
 
       // // ERROR CELLS
@@ -230,8 +269,6 @@ function tDataClickHandler(e){
       alert("Please select a number on the bottom palette then click a cell on the gameboard to set the value.");
    }
 }
-
-var undoHash = {};
 
 // 9x9 Sudoku board shown in 1D array. -1 is a blank cell.
 var boardData = [
