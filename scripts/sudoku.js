@@ -8,7 +8,6 @@ window.onload = function() {
          if (num == -1) {
             num = "";
          }
-         // let content = document.createTextNode(num);
 
          // note: work from the inside out to dynamically generate things. So input is inside the <td>...
          // ...and <td> is inside the <tr> (the row id), so start with generating the input the pass value up.
@@ -92,7 +91,7 @@ window.onload = function() {
       undoHash[hist].pop();
 
       if (undoHash[hist].length > 0) {
-         // Good working version
+         // Good working version (note: what if I make check error cells is a function, then just pass in the value into that function?)
          tData[hist].firstChild.setAttribute('value', undoHash[hist][undoHash[hist].length-1]);
       }
 
@@ -102,30 +101,8 @@ window.onload = function() {
             tData[i].firstChild.className = '';
          }
       }
-
-      // note: else { take the value thats just deleted, and check for its error cells, then erase all of those error cells }
-      // storeInfo = false;
-      // paletteValue = valueHistory[valueHistory.length-1];
-      // tData[cellHistory[cellHistory.length-1]] = tDataClickHandler;
-      // storeInfo = true;
-
-      // storeInfo = false;
-      // paletteValue = undoHash[hist][undoHash[hist].length-1];
-      // tData[hist] = tDataClickHandler;
-      // storeInfo = true;
-
-      // click undo to clear all the error classes on the board, then use the tDataClickHandler funciton on the specified tData index.
-      // palette value will be equal to the value on stack, then just use the tDataClickHandler function
    };
    
-
-   // for dubugging
-   // alert(document.getElementById("board").rows[0].cells[1].innerHTML);
-   // alert(tData[1].firstChild.value); // Works, shows the value of 1
-
-   // setInterval(function() {  // note: use this to execute a piece of code every specified miliseconds interval
-   //    // alert("hi");
-   // }, 1000)
 }
 
 
@@ -135,9 +112,6 @@ var undoHash = {};
 for (var i = 0; i < 81; i++) {
    undoHash[i] = [];
 }
-// undoHash[2].push(2);
-// undoHash[2].push(3);
-// undoHash[2].push(5);
 
 var storeInfo = true;
 var paletteValue;
@@ -163,16 +137,6 @@ function tDataClickHandler(e){
             tDataTemp[i].firstChild.className = '';
          }
       }
-
-      // // ERROR CELLS
-      // for (y = 0; y < 9; y++) {     
-      //    if (boardPosition(this.cellIndex, y) == paletteValue) {
-            
-      //       tdElm.className = 'error';
-      //       // var tData = document.getElementsByTagName("td");
-      //       // tData[boardPosition(this.cellIndex, y)].firstChild.setAttribute('class', 'error');
-      //    }
-      // }
 
       var count = 0;
       var initialFindRow = 0;
@@ -216,33 +180,6 @@ function tDataClickHandler(e){
       count = 0;
       initialFindRow = 0;
       initialFindCol = 0;
-      
-      
-      // Check same block error
-      // for (var y = 0; y < 9; y++) {
-      //    alert(tdElm.value);   
-      //    alert("y is: " + y);
-      //    alert("Column Cell: " + (Math.floor((tDataTemp[boardPosition(y, this.parentElement.rowIndex)].firstChild.value) / 3) * 3));
-      //    alert("Row Cell: " + (Math.floor((tDataTemp[boardPosition(this.cellIndex, y)].firstChild.value) / 3) * 3));
-      //    var tDataTemp = document.getElementsByTagName("td");
-      //    // if ((sameBlock(tDataTemp[boardPosition(y, this.parentElement.rowIndex)].firstChild.value, tDataTemp[boardPosition(this.cellIndex, y)].firstChild.value, tdElm.value, tdElm.value) == true)) {
-      //    if (sameBlock(tDataTemp[boardPosition(y, this.parentElement.rowIndex)].firstChild.value, tDataTemp[boardPosition(this.cellIndex, y)].firstChild.value, tdElm.value, tdElm.value)) { 
-      //       // if (count < 1) {
-      //       //    initialFindCol = boardPosition(y, this.parentElement.rowIndex);
-      //       //    initialFindRow = boardPosition(this.cellIndex, y);
-      //       // }
-      //       // count = count + 1;
-      //       // if(count > 1) {
-      //       //    tDataTemp[initialFindCol].firstChild.setAttribute('class', 'error');
-      //       //    tDataTemp[boardPosition(y, this.parentElement.rowIndex)].firstChild.setAttribute('class', 'error');
-
-      //       //    tDataTemp[initialFindRow].firstChild.setAttribute('class', 'error');
-      //       //    tDataTemp[boardPosition(this.cellIndex, y)].firstChild.setAttribute('class', 'error');
-      //       // }
-      //       // tdElm.className = 'error';
-      //       alert("found");
-      //    }
-      // }
 
       // 1st
       if (this.parentElement.rowIndex < 3 && this.cellIndex < 3) {
@@ -450,21 +387,3 @@ function sameColumn(x1, y1, x2, y2) {
 function overlaps(x1, y1, x2, y2) {
    return sameBlock(x1, y1, x2, y2) || sameRow(x1, y1, x2, y2) || sameColumn(x1, y1, x2, y2);
 }
-
-// function checkBlock(col, row) {
-//    // let gridRow = Math.floor( row / 3 );
-//    // let gridCol = Math.floor( col / 3 );
-//    // let gridIndex = gridRow * 3 + gridCol;
-//    let firstRow = Math.floor(row / 3) * 3;
-//    let firstCol = Math.floor(col / 3) * 3;
-
-//    return "Row: " + firstRow + " " + "Col: " + firstCol;
-// }
-
-// function checkBlock2(col, row) {
-//    let gridRow = Math.floor( row / 3 );
-//    let gridCol = Math.floor( col / 3 );
-//    let gridIndex = gridRow * 3 + gridCol;
-   
-//    return gridIndex;
-// }
